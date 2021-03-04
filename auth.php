@@ -60,19 +60,6 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
     }
 
     /**
-     * Encrypt Strings
-     *
-     * @param string $texttoencrypt The text to Encrypt
-     * @return bool Return Encrypted String
-     */
-    public function encrption_data($texttoencrypt) {
-
-        $encryptionmethod = "AES-256-CBC";
-        $secrethash = "25c6c7ff35b9979b151f2136cd13b0ff";
-        return @openssl_encrypt($texttoencrypt, $encryptionmethod, $secrethash);
-    }
-
-    /**
      * Check if user authenticated
      *
      * @param string $user The userdata
