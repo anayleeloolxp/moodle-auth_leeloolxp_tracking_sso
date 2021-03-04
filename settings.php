@@ -24,139 +24,7 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
-$style = "<style type='text/css'>
-
-#adminsettings .settingsform div[id*='student_position_t_'] .form-label.col-sm-3,
-
-#adminsettings .settingsform div[id*='teacher_position_t_'] .form-label.col-sm-3 {
-
-    display: none;
-
-}
-
-#adminsettings .settingsform div[id*='student_position_t_'] .add_more_student_student_section ,
-
-#adminsettings .settingsform div[id*='teacher_position_t_'] .add_more_teacher_section {
-
-    margin: 10px 10px 15px;
-
-    padding: .375rem .75rem;
-
-    color: #fff!important;
-
-    background-color: #00bcbe!important;
-
-    border-color: #00bcbe!important;
-
-    text-decoration: none;
-
-}
-
-#adminsettings .settingsform div[id*='student_position_moodle_'] .form-setting.col-sm-9>div,
-
-#adminsettings .settingsform div[id*='teacher_position_moodle_'] .form-setting.col-sm-9>div {
-
-display: inline-block;
-
-vertical-align: middle;
-
-}
-
-.form-shortname { display: none;  }
-
-div[id*='teacher_position_'] .form-defaultinfo {
-
-    display: none!important;
-
-}
-
-div[id*='student_position_'] .form-defaultinfo {
-
-    display: none!important;
-
-}
-
-div[id*='teacher_institution_'] .form-defaultinfo {
-
-    display: none!important;
-
-}
-
-div[id*='student_institution_'] .form-defaultinfo {
-
-    display: none!important;
-
-}
-#adminsettings .settingsform div[id*='student_department_'] {
-
-display: none!important;
-
-}
-#adminsettings .settingsform div[id*='student_institution_'] {
-
-display: none!important;
-
-}
-
-#adminsettings .settingsform div[id*='admin-student_degree_'] {
-
-display: none!important;
-}
-
-#adminsettings .settingsform div[id*='teacher_department_'] {
-
-display: none!important;
-
-}
-#adminsettings .settingsform div[id*='teacher_institution_'] {
-
-display: none!important;
-
-}
-
-#adminsettings .settingsform div[id*='teacher_degree_'] {
-
-display: none!important;
-}
-.form-item .form-setting.col-sm-9>div[class*='_position_text'] {
-
-    display: block !important;
-
-    margin: 10px 0 2px;
-
-}
-
-form#adminsettings .settingsform .form-item {
-
-    margin: 0 0 10px;
-
-}
-
-#adminsettings .settingsform .top_text_student {
-
-    display: block !important;
-
-    margin: 0 0 5px;
-
-}
-
-#adminsettings .settingsform .top_text_student p {
-
-    margin: 0;
-
-}
-
-form#adminsettings .settingsform div[id*='web_new_user_'] {
-
-padding-top: 25px;
-
-margin-top: 15px;
-
-border-top: 1px solid #ccc;
-
-}
-
-</style>";
+$noapi = 0;
 
 if ($ADMIN->fulltree) {
     $roles = $DB->get_records_sql('SELECT shortname as Role, id, Description FROM {role} order by name');
@@ -173,19 +41,19 @@ if ($ADMIN->fulltree) {
             where {user_info_field}.shortname = 'degree' and data !=''"
     );
 
-    $institutionarr[] = 'Institutions';
+    $institutionarr[] = get_string('student_institution_lable', 'auth_leeloolxp_tracking_sso');
 
     foreach ($institutions as $key => $value) {
         $institutionarr[$value->institution] = $value->institution;
     }
 
-    $departmentarr[] = 'Department';
+    $departmentarr[] = get_string('student_department_lable', 'auth_leeloolxp_tracking_sso');
 
     foreach ($department as $key => $value) {
         $departmentarr[$value->department] = $value->department;
     }
 
-    $degreearr[] = 'Degree';
+    $degreearr[] = get_string('student_degree_lable', 'auth_leeloolxp_tracking_sso');
 
     foreach ($degrees as $key => $value) {
         $degreearr[$value->data] = $value->data;
@@ -232,37 +100,36 @@ if ($ADMIN->fulltree) {
     );
 
     if (!$output = $curl->post($url, $postdata, $options)) {
-        return true;
+        $noapi = 1;
     }
 
     $infoteamnio = json_decode($output);
 
     if ($infoteamnio->status != 'false') {
         $teamniourl = $infoteamnio->data->install_url;
+
+        $url = $teamniourl . '/admin/sync_moodle_course/get_all_designation_array';
+
+        $curl = new curl;
+
+        $options = array(
+            'CURLOPT_RETURNTRANSFER' => true,
+            'CURLOPT_HEADER' => false,
+            'CURLOPT_POST' => count($postdata),
+        );
+
+        if (!$output = $curl->post($url, $postdata, $options)) {
+            $noapi = 1;
+        }
+
+        $designations = json_decode($output, true);
     } else {
-
-        $teamniourl = 'https://leeloolxp.com/leeloolxp_fresh/moodle-dev';
+        $noapi = 1;
     }
-
-    $url = $teamniourl . '/admin/sync_moodle_course/get_all_designation_array';
-
-    $curl = new curl;
-
-    $options = array(
-        'CURLOPT_RETURNTRANSFER' => true,
-        'CURLOPT_HEADER' => false,
-        'CURLOPT_POST' => count($postdata),
-    );
-
-    if (!$output = $curl->post($url, $postdata, $options)) {
-        return true;
-    }
-
-    $designations = json_decode($output, true);
 
     $rolesarr = array();
 
-    $rolesarr[] = 'Role';
+    $rolesarr[] = get_string('role', 'auth_leeloolxp_tracking_sso');
 
     if (!empty($roles)) {
         foreach ($roles as $key => $value) {
@@ -274,389 +141,391 @@ if ($ADMIN->fulltree) {
         new admin_setting_configtext(
             'auth_leeloolxp_tracking_sso/leeloolxp_license',
             get_string('leeloolxp_license', 'auth_leeloolxp_tracking_sso'),
-            $style,
+            get_string('leeloolxp_license_desc', 'auth_leeloolxp_tracking_sso'),
             0
         )
     );
 
-    $settings->add(
-        new admin_setting_configcheckbox(
-            'auth_leeloolxp_tracking_sso/web_new_user_student',
-            get_string('create_new_user_student_lable', 'auth_leeloolxp_tracking_sso'),
-            get_string('help_txt_new_student', 'auth_leeloolxp_tracking_sso'),
-            1
-        )
-    );
-
-    $settings->add(
-        new admin_setting_configcheckbox(
-            'auth_leeloolxp_tracking_sso/required_aproval_student',
-            get_string('required_aproval_student_lable', 'auth_leeloolxp_tracking_sso'),
-            get_string('help_txt_required_aproval_student', 'auth_leeloolxp_tracking_sso'),
-            1
-        )
-    );
-
-    // 'Student Defaut Position in Leeloo'.
-
-    $title = get_string('default_position_leelo', 'auth_leeloolxp_tracking_sso');
-
-    $description = get_string('default_position_leelo_description', 'auth_leeloolxp_tracking_sso');
-
-    $settings->add(new admin_setting_configselect('auth_leeloolxp_tracking_sso/default_student_position', $title, $description, 2, $designations));
-
-    $arrstudentcom = array();
-
-    for ($sx = 1; $sx <= 100; $sx++) {
-        $arrstudentcom[$sx] = $sx;
-    }
-
-    $name = 'auth_leeloolxp_tracking_sso/student_num_combination';
-
-    $description = get_string('student_num_of_comb', 'auth_leeloolxp_tracking_sso');
-
-    $title = get_string('student_num_of_role', 'auth_leeloolxp_tracking_sso');
-
-    $settings->add(new admin_setting_configselect($name, $title, $description, '', $arrstudentcom));
-
-    if ($studentnumcombinationsval > 0) {
-        for ($key = 1; $key <= $studentnumcombinationsval; $key++) {
-            $name = 'auth_leeloolxp_tracking_sso/student_position_moodle_' . $key;
-            $title = get_string('student_position_lable_moodle', 'auth_leeloolxp_tracking_sso');
-            $description = get_string('studdent_position_help_txt', 'auth_leeloolxp_tracking_sso');
-            $settings->add(new admin_setting_configselect($name, $title, $description, '0', $rolesarr));
-
-            $name = 'auth_leeloolxp_tracking_sso/student_position_t_' . $key;
-
-            $title = get_string('student_position_lable_t', 'auth_leeloolxp_tracking_sso');
-
-            $description = get_string('studdent_position_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($name, $title, $description, '0', $designations));
-
-            // Institutions.
-
-            $instituname = 'auth_leeloolxp_tracking_sso/student_institution_' . $key;
-
-            $institutitle = get_string('student_institution_lable', 'auth_leeloolxp_tracking_sso');
-
-            $institudescription = get_string('student_institution_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($instituname, $institutitle, '', '', $institutionarr));
-
-            // Department.
-
-            $departmentname = 'auth_leeloolxp_tracking_sso/student_department_' . $key;
-
-            $departmenttitle = get_string('student_department_lable', 'auth_leeloolxp_tracking_sso');
-
-            $departmentdescription = get_string('student_department_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($departmentname, $departmenttitle, '', '', $departmentarr));
-
-            // Degree.
-
-            $degreename = 'auth_leeloolxp_tracking_sso/student_degree_' . $key;
-
-            $degreetitle = get_string('student_degree_lable', 'auth_leeloolxp_tracking_sso');
-
-            $degreedescription = get_string('student_degree_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($degreename, $degreetitle, '', '', $degreearr));
-        }
-    }
-
-    $settings->add(
-        new admin_setting_configcheckbox(
-            'auth_leeloolxp_tracking_sso/web_new_user_teacher',
-            get_string('create_new_user_teacher_lable', 'auth_leeloolxp_tracking_sso'),
-            get_string('help_txt_new_teacher', 'auth_leeloolxp_tracking_sso'),
-            1
-        )
-    );
-
-    $settings->add(
-        new admin_setting_configcheckbox(
-            'auth_leeloolxp_tracking_sso/required_aproval_teacher',
-            get_string('required_aproval_teacher_lable', 'auth_leeloolxp_tracking_sso'),
-            get_string('help_txt_required_aproval_teacher', 'auth_leeloolxp_tracking_sso'),
-            1
-        )
-    );
-
-    $arrteachercom = array();
-
-    for ($sx = 1; $sx <= 100; $sx++) {
-        $arrteachercom[$sx] = $sx;
-    }
-
-    $name = 'auth_leeloolxp_tracking_sso/teacher_num_combination';
-
-    $title = get_string('teacher_num_of_role', 'auth_leeloolxp_tracking_sso');
-
-    $description = get_string('teacher_num_of_comb', 'auth_leeloolxp_tracking_sso');
-
-    $settings->add(new admin_setting_configselect($name, $title, $description, '', $arrteachercom));
-
-    if ($teachernumcombinationsval > 0) {
-        for ($key = 1; $key <= $teachernumcombinationsval; $key++) {
-            $name = 'auth_leeloolxp_tracking_sso/teacher_position_moodle_' . $key;
-
-            $title = get_string('teacher_position_lable_moodle', 'auth_leeloolxp_tracking_sso');
-
-            $description = get_string('teacher_position_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($name, $title, $description, 0, $rolesarr));
-
-            $name = 'auth_leeloolxp_tracking_sso/teacher_position_t_' . $key;
-
-            $title = get_string('teacher_position_lable_t', 'auth_leeloolxp_tracking_sso');
-
-            $description = get_string('teacher_position_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($name, $title, $description, 0, $designations));
-
-            // Institutions.
-
-            $institunameteacher = 'auth_leeloolxp_tracking_sso/teacher_institution_' . $key;
-
-            $institutitleteacher = get_string('teacher_institution_lable', 'auth_leeloolxp_tracking_sso');
-
-            $institudescriptionteacher = get_string('teacher_institution_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($institunameteacher, $institutitleteacher, '', '', $institutionarr));
-
-            // Department.
-
-            $departmentnameteacher = 'auth_leeloolxp_tracking_sso/teacher_department_' . $key;
-
-            $departmenttitleteacher = get_string('teacher_department_lable', 'auth_leeloolxp_tracking_sso');
-
-            $departmentdescriptionteacher = get_string('teacher_department_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($departmentnameteacher, $departmenttitleteacher, '', '', $departmentarr));
-
-            // Degree.
-
-            $degreenameteacher = 'auth_leeloolxp_tracking_sso/teacher_degree_' . $key;
-
-            $degreetitleteacher = get_string('teacher_degree_lable', 'auth_leeloolxp_tracking_sso');
-
-            $degreedescriptionteacher = get_string('teacher_degree_help_txt', 'auth_leeloolxp_tracking_sso');
-
-            $settings->add(new admin_setting_configselect($degreenameteacher, $degreetitleteacher, '', '', $degreearr));
-        }
-    }
-
-    $PAGE->requires->js_init_code("window.onload = function() {
-
-        var s_role_1_heading = '" . get_string('student_role_heading_1', 'auth_leeloolxp_tracking_sso') . "';
-
-        var s_role_2_heading = '';
-
-        var student_position_leelo_text = '" . get_string('student_position_leelo_text', 'auth_leeloolxp_tracking_sso') . "';
-
-        var t_role_1_heading = '" . get_string('teacher_role_heading_1', 'auth_leeloolxp_tracking_sso') . "';
-
-        var t_role_2_heading = '';
-
-        var count = '" . $studentnumcombinationsval . "';
-
-        for(var i = 1; i<=count; i++) {
-
-            var top_text_student = '<div class=\"top_text_student\"> <b>'+s_role_1_heading+'</b><p> '+s_role_2_heading+' <p></div>';
-
-            if (
-                typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i)) !== 'undefined'
-                &&
-                document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i) !== null
-            ) {
-
-                var student_first_element = document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i).parentElement.parentElement;
-            }
-
-            if (typeof(student_first_element) != 'undefined' && student_first_element != null) {
-
-                student_first_element.innerHTML = top_text_student+student_first_element.innerHTML;
-
-            }
-
-            if (
-                typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i)) !== 'undefined'
-                &&
-                document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i) !== null
-            ) {
-                var student_t_position = document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i).parentElement.parentElement;
-            }
-            var student_t_position_text = '<div class=\"student_t_position_text\"><b>'+student_position_leelo_text+'</b></div>';
-
-            if (typeof(student_t_position) != 'undefined' && student_t_position != null) {
-
-                student_t_position.innerHTML = student_t_position_text+student_t_position.innerHTML;
-
-            }
-
+    if ($noapi == 0) {
+        $settings->add(
+            new admin_setting_configcheckbox(
+                'auth_leeloolxp_tracking_sso/web_new_user_student',
+                get_string('create_new_user_student_lable', 'auth_leeloolxp_tracking_sso'),
+                get_string('help_txt_new_student', 'auth_leeloolxp_tracking_sso'),
+                1
+            )
+        );
+
+        $settings->add(
+            new admin_setting_configcheckbox(
+                'auth_leeloolxp_tracking_sso/required_aproval_student',
+                get_string('required_aproval_student_lable', 'auth_leeloolxp_tracking_sso'),
+                get_string('help_txt_required_aproval_student', 'auth_leeloolxp_tracking_sso'),
+                1
+            )
+        );
+
+        // 'Student Defaut Position in Leeloo'.
+
+        $title = get_string('default_position_leelo', 'auth_leeloolxp_tracking_sso');
+
+        $description = get_string('default_position_leelo_description', 'auth_leeloolxp_tracking_sso');
+
+        $settings->add(new admin_setting_configselect('auth_leeloolxp_tracking_sso/default_student_position', $title, $description, 2, $designations));
+
+        $arrstudentcom = array();
+
+        for ($sx = 1; $sx <= 100; $sx++) {
+            $arrstudentcom[$sx] = $sx;
         }
 
-        var count = '" . $teachernumcombinationsval . "';
+        $name = 'auth_leeloolxp_tracking_sso/student_num_combination';
 
-        for(var i = 1; i<=count; i++) {
+        $description = get_string('student_num_of_comb', 'auth_leeloolxp_tracking_sso');
 
-            if (
-                typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i)) !== 'undefined'
-                &&
-                document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i) !== null
-            ) {
+        $title = get_string('student_num_of_role', 'auth_leeloolxp_tracking_sso');
 
-                var teacher_t_position = document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i).parentElement.parentElement;
+        $settings->add(new admin_setting_configselect($name, $title, $description, '', $arrstudentcom));
+
+        if ($studentnumcombinationsval > 0) {
+            for ($key = 1; $key <= $studentnumcombinationsval; $key++) {
+                $name = 'auth_leeloolxp_tracking_sso/student_position_moodle_' . $key;
+                $title = get_string('student_position_lable_moodle', 'auth_leeloolxp_tracking_sso');
+                $description = get_string('studdent_position_help_txt', 'auth_leeloolxp_tracking_sso');
+                $settings->add(new admin_setting_configselect($name, $title, $description, '0', $rolesarr));
+
+                $name = 'auth_leeloolxp_tracking_sso/student_position_t_' . $key;
+
+                $title = get_string('student_position_lable_t', 'auth_leeloolxp_tracking_sso');
+
+                $description = get_string('studdent_position_help_txt', 'auth_leeloolxp_tracking_sso');
+
+                $settings->add(new admin_setting_configselect($name, $title, $description, '0', $designations));
+
+                // Institutions.
+
+                $instituname = 'auth_leeloolxp_tracking_sso/student_institution_' . $key;
+
+                $institutitle = get_string('student_institution_lable', 'auth_leeloolxp_tracking_sso');
+
+                $institudescription = get_string('student_institution_help_txt', 'auth_leeloolxp_tracking_sso');
+
+                $settings->add(new admin_setting_configselect($instituname, $institutitle, '', '', $institutionarr));
+
+                // Department.
+
+                $departmentname = 'auth_leeloolxp_tracking_sso/student_department_' . $key;
+
+                $departmenttitle = get_string('student_department_lable', 'auth_leeloolxp_tracking_sso');
+
+                $departmentdescription = get_string('student_department_help_txt', 'auth_leeloolxp_tracking_sso');
+
+                $settings->add(new admin_setting_configselect($departmentname, $departmenttitle, '', '', $departmentarr));
+
+                // Degree.
+
+                $degreename = 'auth_leeloolxp_tracking_sso/student_degree_' . $key;
+
+                $degreetitle = get_string('student_degree_lable', 'auth_leeloolxp_tracking_sso');
+
+                $degreedescription = get_string('student_degree_help_txt', 'auth_leeloolxp_tracking_sso');
+
+                $settings->add(new admin_setting_configselect($degreename, $degreetitle, '', '', $degreearr));
             }
-
-            var teacher_t_position_text = '<div class=\"teacher_t_position_text\"><b>'+student_position_leelo_text+'</b></div>';
-
-            if (typeof(teacher_t_position) != 'undefined' && teacher_t_position != null) {
-
-                teacher_t_position.innerHTML = teacher_t_position_text+teacher_t_position.innerHTML;
-
-            }
-
-            var top_text_teacher = '<div class=\"top_text_student\"> <b>'+t_role_1_heading+'</b><p>'+t_role_2_heading+'<p></div>';
-
-            if (
-                typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i)) != 'undefined'
-                &&
-                document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i) != null
-            ) {
-                var teacher_first_element = document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i).parentElement.parentElement;
-            }
-
-            if (typeof(teacher_first_element) != 'undefined' && teacher_first_element != null) {
-
-                teacher_first_element.innerHTML = top_text_teacher+teacher_first_element.innerHTML;
-
-            }
-
         }
 
+        $settings->add(
+            new admin_setting_configcheckbox(
+                'auth_leeloolxp_tracking_sso/web_new_user_teacher',
+                get_string('create_new_user_teacher_lable', 'auth_leeloolxp_tracking_sso'),
+                get_string('help_txt_new_teacher', 'auth_leeloolxp_tracking_sso'),
+                1
+            )
+        );
 
-        var count = '" . $studentnumcombinationsval . "';
+        $settings->add(
+            new admin_setting_configcheckbox(
+                'auth_leeloolxp_tracking_sso/required_aproval_teacher',
+                get_string('required_aproval_teacher_lable', 'auth_leeloolxp_tracking_sso'),
+                get_string('help_txt_required_aproval_teacher', 'auth_leeloolxp_tracking_sso'),
+                1
+            )
+        );
 
-        for(var i = 1; i<=count; i++) {
+        $arrteachercom = array();
 
-            var some_variable_new = document.getElementById('admin-student_position_t_'+i);
-
-            if (typeof(some_variable_new) != 'undefined' && some_variable_new != null) {
-
-                // Institution append.
-
-                var p_div_student_institution =  document.getElementById('admin-student_institution_'+i);
-
-                var child_institution_div_student = p_div_student_institution.getElementsByClassName('form-setting')[0].innerHTML;
-
-                document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_student;
-
-                document.getElementById('admin-student_institution_'+i).getElementsByClassName('form-setting')[0].remove();
-
-                // Department append.
-
-                var p_div_student_department =  document.getElementById('admin-student_department_'+i);
-
-                var child_department_div_student = p_div_student_department.getElementsByClassName('form-setting')[0].innerHTML;
-                document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_student;
-
-                document.getElementById('admin-student_department_'+i).getElementsByClassName('form-setting')[0].remove();
-                // Degree append.
-
-                var p_div_student_degree =  document.getElementById('admin-student_degree_'+i);
-
-                var child_degree_div_student = p_div_student_degree.getElementsByClassName('form-setting')[0].innerHTML;
-
-                document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_student;
-
-                document.getElementById('admin-student_degree_'+i).getElementsByClassName('form-setting')[0].remove();
-
-                // Position append.
-
-                var p_div_student =  document.getElementById('admin-student_position_t_'+i);
-
-                var child_div_student = p_div_student.getElementsByClassName('form-setting')[0].innerHTML;
-
-                document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_div_student;
-
-                document.getElementById('admin-student_position_t_'+i).getElementsByClassName('form-setting')[0].remove();
-
-                // Position append  claose.
-
-            }
-
+        for ($sx = 1; $sx <= 100; $sx++) {
+            $arrteachercom[$sx] = $sx;
         }
 
-        var count = '" . $teachernumcombinationsval . "';
+        $name = 'auth_leeloolxp_tracking_sso/teacher_num_combination';
 
-        for(var i = 1; i<=count; i++) {
+        $title = get_string('teacher_num_of_role', 'auth_leeloolxp_tracking_sso');
 
-                // teacher section append.
+        $description = get_string('teacher_num_of_comb', 'auth_leeloolxp_tracking_sso');
 
-                // Institution append.
+        $settings->add(new admin_setting_configselect($name, $title, $description, '', $arrteachercom));
 
-                var some_variable_new = document.getElementById('admin-teacher_position_t_'+i);
-                if (typeof(some_variable_new) != 'undefined' && some_variable_new != null) {
+        if ($teachernumcombinationsval > 0) {
+            for ($key = 1; $key <= $teachernumcombinationsval; $key++) {
+                $name = 'auth_leeloolxp_tracking_sso/teacher_position_moodle_' . $key;
 
-                    var p_div_teacher_institution =  document.getElementById('admin-teacher_institution_'+i);
+                $title = get_string('teacher_position_lable_moodle', 'auth_leeloolxp_tracking_sso');
 
-                    var child_institution_div_teacher = p_div_teacher_institution.getElementsByClassName('form-setting')[0].innerHTML;
+                $description = get_string('teacher_position_help_txt', 'auth_leeloolxp_tracking_sso');
 
-                    document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_teacher;
+                $settings->add(new admin_setting_configselect($name, $title, $description, 0, $rolesarr));
 
-                    document.getElementById('admin-teacher_institution_'+i).getElementsByClassName('form-setting')[0].remove();
-                    // Department append.
+                $name = 'auth_leeloolxp_tracking_sso/teacher_position_t_' . $key;
 
-                    var p_div_teacher_department =  document.getElementById('admin-teacher_department_'+i);
+                $title = get_string('teacher_position_lable_t', 'auth_leeloolxp_tracking_sso');
 
-                    var child_department_div_teacher = p_div_teacher_department.getElementsByClassName('form-setting')[0].innerHTML;
+                $description = get_string('teacher_position_help_txt', 'auth_leeloolxp_tracking_sso');
 
-                    document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_teacher;
+                $settings->add(new admin_setting_configselect($name, $title, $description, 0, $designations));
 
-                    document.getElementById('admin-teacher_department_'+i).getElementsByClassName('form-setting')[0].remove();
-                    // Degree append.
+                // Institutions.
 
-                    var p_div_teacher_degree =  document.getElementById('admin-teacher_degree_'+i);
+                $institunameteacher = 'auth_leeloolxp_tracking_sso/teacher_institution_' . $key;
 
-                    var child_degree_div_teacher = p_div_teacher_degree.getElementsByClassName('form-setting')[0].innerHTML;
+                $institutitleteacher = get_string('teacher_institution_lable', 'auth_leeloolxp_tracking_sso');
 
-                    document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_teacher;
+                $institudescriptionteacher = get_string('teacher_institution_help_txt', 'auth_leeloolxp_tracking_sso');
 
-                    document.getElementById('admin-teacher_degree_'+i).getElementsByClassName('form-setting')[0].remove();
+                $settings->add(new admin_setting_configselect($institunameteacher, $institutitleteacher, '', '', $institutionarr));
 
-                    var p_div_teacher =  document.getElementById('admin-teacher_position_t_'+i);
+                // Department.
 
-                    var child_div_teacher = p_div_teacher.getElementsByClassName('form-setting')[0].innerHTML;
+                $departmentnameteacher = 'auth_leeloolxp_tracking_sso/teacher_department_' . $key;
 
-                    document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_div_teacher;
+                $departmenttitleteacher = get_string('teacher_department_lable', 'auth_leeloolxp_tracking_sso');
 
-                    document.getElementById('admin-teacher_position_t_'+i).getElementsByClassName('form-setting')[0].remove();
+                $departmentdescriptionteacher = get_string('teacher_department_help_txt', 'auth_leeloolxp_tracking_sso');
+
+                $settings->add(new admin_setting_configselect($departmentnameteacher, $departmenttitleteacher, '', '', $departmentarr));
+
+                // Degree.
+
+                $degreenameteacher = 'auth_leeloolxp_tracking_sso/teacher_degree_' . $key;
+
+                $degreetitleteacher = get_string('teacher_degree_lable', 'auth_leeloolxp_tracking_sso');
+
+                $degreedescriptionteacher = get_string('teacher_degree_help_txt', 'auth_leeloolxp_tracking_sso');
+
+                $settings->add(new admin_setting_configselect($degreenameteacher, $degreetitleteacher, '', '', $degreearr));
+            }
+        }
+
+        $PAGE->requires->js_init_code("window.onload = function() {
+
+            var s_role_1_heading = '" . get_string('student_role_heading_1', 'auth_leeloolxp_tracking_sso') . "';
+
+            var s_role_2_heading = '';
+
+            var student_position_leelo_text = '" . get_string('student_position_leelo_text', 'auth_leeloolxp_tracking_sso') . "';
+
+            var t_role_1_heading = '" . get_string('teacher_role_heading_1', 'auth_leeloolxp_tracking_sso') . "';
+
+            var t_role_2_heading = '';
+
+            var count = '" . $studentnumcombinationsval . "';
+
+            for(var i = 1; i<=count; i++) {
+
+                var top_text_student = '<div class=\"top_text_student\"> <b>'+s_role_1_heading+'</b><p> '+s_role_2_heading+' <p></div>';
+
+                if (
+                    typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i)) !== 'undefined'
+                    &&
+                    document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i) !== null
+                ) {
+
+                    var student_first_element = document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i).parentElement.parentElement;
+                }
+
+                if (typeof(student_first_element) != 'undefined' && student_first_element != null) {
+
+                    student_first_element.innerHTML = top_text_student+student_first_element.innerHTML;
 
                 }
 
-        }
+                if (
+                    typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i)) !== 'undefined'
+                    &&
+                    document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i) !== null
+                ) {
+                    var student_t_position = document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i).parentElement.parentElement;
+                }
+                var student_t_position_text = '<div class=\"student_t_position_text\"><b>'+student_position_leelo_text+'</b></div>';
 
-        if (
-            typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination')) != 'undefined'
-            &&
-            document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination') != null
-        ) {
-            document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination').addEventListener('change', function() {
+                if (typeof(student_t_position) != 'undefined' && student_t_position != null) {
 
-                document.getElementById('adminsettings').submit();
+                    student_t_position.innerHTML = student_t_position_text+student_t_position.innerHTML;
 
-            });
+                }
 
-            document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_num_combination').addEventListener('change', function() {
+            }
 
-                document.getElementById('adminsettings').submit();
+            var count = '" . $teachernumcombinationsval . "';
 
-            });
+            for(var i = 1; i<=count; i++) {
 
-        }
+                if (
+                    typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i)) !== 'undefined'
+                    &&
+                    document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i) !== null
+                ) {
 
-    };");
+                    var teacher_t_position = document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i).parentElement.parentElement;
+                }
+
+                var teacher_t_position_text = '<div class=\"teacher_t_position_text\"><b>'+student_position_leelo_text+'</b></div>';
+
+                if (typeof(teacher_t_position) != 'undefined' && teacher_t_position != null) {
+
+                    teacher_t_position.innerHTML = teacher_t_position_text+teacher_t_position.innerHTML;
+
+                }
+
+                var top_text_teacher = '<div class=\"top_text_student\"> <b>'+t_role_1_heading+'</b><p>'+t_role_2_heading+'<p></div>';
+
+                if (
+                    typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i)) != 'undefined'
+                    &&
+                    document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i) != null
+                ) {
+                    var teacher_first_element = document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i).parentElement.parentElement;
+                }
+
+                if (typeof(teacher_first_element) != 'undefined' && teacher_first_element != null) {
+
+                    teacher_first_element.innerHTML = top_text_teacher+teacher_first_element.innerHTML;
+
+                }
+
+            }
+
+
+            var count = '" . $studentnumcombinationsval . "';
+
+            for(var i = 1; i<=count; i++) {
+
+                var some_variable_new = document.getElementById('admin-student_position_t_'+i);
+
+                if (typeof(some_variable_new) != 'undefined' && some_variable_new != null) {
+
+                    // Institution append.
+
+                    var p_div_student_institution =  document.getElementById('admin-student_institution_'+i);
+
+                    var child_institution_div_student = p_div_student_institution.getElementsByClassName('form-setting')[0].innerHTML;
+
+                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_student;
+
+                    document.getElementById('admin-student_institution_'+i).getElementsByClassName('form-setting')[0].remove();
+
+                    // Department append.
+
+                    var p_div_student_department =  document.getElementById('admin-student_department_'+i);
+
+                    var child_department_div_student = p_div_student_department.getElementsByClassName('form-setting')[0].innerHTML;
+                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_student;
+
+                    document.getElementById('admin-student_department_'+i).getElementsByClassName('form-setting')[0].remove();
+                    // Degree append.
+
+                    var p_div_student_degree =  document.getElementById('admin-student_degree_'+i);
+
+                    var child_degree_div_student = p_div_student_degree.getElementsByClassName('form-setting')[0].innerHTML;
+
+                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_student;
+
+                    document.getElementById('admin-student_degree_'+i).getElementsByClassName('form-setting')[0].remove();
+
+                    // Position append.
+
+                    var p_div_student =  document.getElementById('admin-student_position_t_'+i);
+
+                    var child_div_student = p_div_student.getElementsByClassName('form-setting')[0].innerHTML;
+
+                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_div_student;
+
+                    document.getElementById('admin-student_position_t_'+i).getElementsByClassName('form-setting')[0].remove();
+
+                    // Position append  claose.
+
+                }
+
+            }
+
+            var count = '" . $teachernumcombinationsval . "';
+
+            for(var i = 1; i<=count; i++) {
+
+                    // teacher section append.
+
+                    // Institution append.
+
+                    var some_variable_new = document.getElementById('admin-teacher_position_t_'+i);
+                    if (typeof(some_variable_new) != 'undefined' && some_variable_new != null) {
+
+                        var p_div_teacher_institution =  document.getElementById('admin-teacher_institution_'+i);
+
+                        var child_institution_div_teacher = p_div_teacher_institution.getElementsByClassName('form-setting')[0].innerHTML;
+
+                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_teacher;
+
+                        document.getElementById('admin-teacher_institution_'+i).getElementsByClassName('form-setting')[0].remove();
+                        // Department append.
+
+                        var p_div_teacher_department =  document.getElementById('admin-teacher_department_'+i);
+
+                        var child_department_div_teacher = p_div_teacher_department.getElementsByClassName('form-setting')[0].innerHTML;
+
+                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_teacher;
+
+                        document.getElementById('admin-teacher_department_'+i).getElementsByClassName('form-setting')[0].remove();
+                        // Degree append.
+
+                        var p_div_teacher_degree =  document.getElementById('admin-teacher_degree_'+i);
+
+                        var child_degree_div_teacher = p_div_teacher_degree.getElementsByClassName('form-setting')[0].innerHTML;
+
+                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_teacher;
+
+                        document.getElementById('admin-teacher_degree_'+i).getElementsByClassName('form-setting')[0].remove();
+
+                        var p_div_teacher =  document.getElementById('admin-teacher_position_t_'+i);
+
+                        var child_div_teacher = p_div_teacher.getElementsByClassName('form-setting')[0].innerHTML;
+
+                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_div_teacher;
+
+                        document.getElementById('admin-teacher_position_t_'+i).getElementsByClassName('form-setting')[0].remove();
+
+                    }
+
+            }
+
+            if (
+                typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination')) != 'undefined'
+                &&
+                document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination') != null
+            ) {
+                document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination').addEventListener('change', function() {
+
+                    document.getElementById('adminsettings').submit();
+
+                });
+
+                document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_num_combination').addEventListener('change', function() {
+
+                    document.getElementById('adminsettings').submit();
+
+                });
+
+            }
+
+        };");
+    }
 }

@@ -28,6 +28,7 @@ $string['auth_leeloolxp_tracking_ssodescription'] = '<p>Sync users to your Leelo
 $string['auth_leeloolxp_tracking_ssosettings'] = 'Settings';
 $string['pluginname'] = 'Leeloo LXP SSO';
 $string['leeloolxp_license'] = 'Leeloo LXP License ID';
+$string['leeloolxp_license_desc'] = 'Enter Valid License ID to see further settings.';
 $string['sso_required_admin_approval_student_label'] = 'Require administrator approval';
 $string['sso_required_admin_approval_student_desc'] = 'The new student requires manual approval on Leeloo LXP to activate the account.';
 $string['privacy:metadata'] = 'In order to integrate with Leeloo LXP, some user
@@ -67,7 +68,7 @@ $string['student_num_of_comb'] = 'Automatically match custom roles, institutions
 $string['teacher_num_of_comb'] = 'Automatically match custom roles, institutions,departments and degrees to positions in Leeloo LXP';
 $string['student_num_of_role'] = 'Number of Roles';
 $string['teacher_num_of_role'] = 'Number of Roles';
-
+$string['role'] = 'Role';
 $string['student_institution_lable'] = 'Institutions';
 $string['student_institution_help_txt'] = 'Institutions';
 $string['student_department_lable'] = 'Department';

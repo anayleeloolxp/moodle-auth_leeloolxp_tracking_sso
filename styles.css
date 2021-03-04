@@ -1,0 +1,84 @@
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="student_position_t_"] .form-label.col-sm-3,
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="teacher_position_t_"] .form-label.col-sm-3 {
+    display: none;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="student_position_t_"] .add_more_student_student_section,
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="teacher_position_t_"] .add_more_teacher_section {
+    margin: 10px 10px 15px;
+    padding: 0.375rem 0.75rem;
+    color: #fff !important;
+    background-color: #00bcbe !important;
+    border-color: #00bcbe !important;
+    text-decoration: none;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="student_position_moodle_"] .form-setting.col-sm-9 > div,
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="teacher_position_moodle_"] .form-setting.col-sm-9 > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso .form-shortname {
+    display: none;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso div[id*="teacher_position_"] .form-defaultinfo {
+    display: none !important;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso div[id*="student_position_"] .form-defaultinfo {
+    display: none !important;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso div[id*="teacher_institution_"] .form-defaultinfo {
+    display: none !important;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso div[id*="student_institution_"] .form-defaultinfo {
+    display: none !important;
+}
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="student_department_"] {
+    display: none !important;
+}
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="student_institution_"] {
+    display: none !important;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="admin-student_degree_"] {
+    display: none !important;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="teacher_department_"] {
+    display: none !important;
+}
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="teacher_institution_"] {
+    display: none !important;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform div[id*="teacher_degree_"] {
+    display: none !important;
+}
+#page-admin-setting-authsettingleeloolxp_tracking_sso .form-item .form-setting.col-sm-9 > div[class*="_position_text"] {
+    display: block !important;
+    margin: 10px 0 2px;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso form#adminsettings .settingsform .form-item {
+    margin: 0 0 10px;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform .top_text_student {
+    display: block !important;
+    margin: 0 0 5px;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso #adminsettings .settingsform .top_text_student p {
+    margin: 0;
+}
+
+#page-admin-setting-authsettingleeloolxp_tracking_sso form#adminsettings .settingsform div[id*="web_new_user_"] {
+    padding-top: 25px;
+    margin-top: 15px;
+    border-top: 1px solid #ccc;
+}
