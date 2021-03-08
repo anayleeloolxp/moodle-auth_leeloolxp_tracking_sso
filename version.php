@@ -24,7 +24,7 @@
  */
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2021030201; // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version = 2021030801; // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2017051501; // Requires this Moodle version.
 $plugin->component = 'auth_leeloolxp_tracking_sso'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
