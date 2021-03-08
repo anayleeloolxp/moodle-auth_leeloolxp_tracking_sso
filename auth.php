@@ -219,8 +219,13 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
         $imgurl
     ) {
 
-        $userapproval = $this->config->required_aproval_student;
-        $userdesignation = $this->config->default_student_position;
+        if (!isset($this->config->required_aproval_student)) {
+            $userapproval = 0;
+        } else {
+            $userapproval = $this->config->required_aproval_student;
+        }
+
+        $userdesignation = @$this->config->default_student_position;
 
         $logintoken = $this->generate_string(20);
 
