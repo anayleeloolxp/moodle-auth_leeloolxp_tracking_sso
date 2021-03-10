@@ -34,7 +34,8 @@ defined('MOODLE_INTERNAL') || die();
  *
  */
 class provider implements
-\core_privacy\local\metadata\provider {
+\core_privacy\local\metadata\provider,
+\core_privacy\local\request\data_provider {
 
     /**
      * Returns meta data about this system.
@@ -44,14 +45,34 @@ class provider implements
      */
     public static function get_metadata(collection $collection): collection {
         // Data collected by the client.
-        $collection->add_external_location_link(
-            'leeloolxp_tracking_sso_client',
-            [
-                'fullname' => 'privacy:metadata:fullname',
-                'email' => 'privacy:metadata:email',
-            ],
-            'privacy:metadata'
-        );
+
+        $externalfields = [
+            'id' => 'privacy:metadata:id',
+            'username' => 'privacy:metadata:username',
+            'email' => 'privacy:metadata:email',
+            'fullname' => 'privacy:metadata:fullname',
+            'city' => 'privacy:metadata:city',
+            'country' => 'privacy:metadata:country',
+            'timezone' => 'privacy:metadata:timezone',
+            'skype' => 'privacy:metadata:skype',
+            'idnumber' => 'privacy:metadata:idnumber',
+            'institution' => 'privacy:metadata:institution',
+            'department' => 'privacy:metadata:department',
+            'phone1' => 'privacy:metadata:phone1',
+            'phone2' => 'privacy:metadata:phone2',
+            'address' => 'privacy:metadata:address',
+            'firstaccess' => 'privacy:metadata:firstaccess',
+            'lastaccess' => 'privacy:metadata:lastaccess',
+            'lastlogin' => 'privacy:metadata:lastlogin',
+            'lastip' => 'privacy:metadata:lastip',
+            'description' => 'privacy:metadata:description',
+            'imagealt' => 'privacy:metadata:imagealt',
+            'alternatename' => 'privacy:metadata:alternatename',
+            'url' => 'privacy:metadata:url',
+
+        ];
+
+        $collection->add_external_location_link('leeloolxp_tracking_sso_client', $externalfields, 'privacy:metadata:leeloolxp_tracking_sso');
 
         return $collection;
     }

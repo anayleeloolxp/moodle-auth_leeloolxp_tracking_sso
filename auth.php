@@ -230,8 +230,8 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
         $logintoken = $this->generate_string(20);
 
         $data = array(
-            'username' => $username,
-            'email' => $email,
+            'username' => base64_encode($username),
+            'email' => base64_encode($email),
             'user_fullname' => $fullname,
             'user_approval' => $userapproval,
             'lastlogin' => $lastlogin,
