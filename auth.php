@@ -98,6 +98,10 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
             return true;
         }
 
+        if ( !$this->config->web_new_user_student ) {
+            return true;
+        }
+
         $lastlogin = date('Y-m-d h:i:s', $user->lastlogin);
         $fullname = fullname($user);
         $city = $user->city;
