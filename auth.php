@@ -307,7 +307,44 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
      *
      * @param string $user The user data
      */
-    public function postlogout_hook($user) {
+    public function postlogout_hook($user) { 
         setcookie('leeloolxpssourl', '', time() + (86400), "/");
+
+        $leeloolxplicense = $this->config->leeloolxp_license;
+
+        $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
+        $postdata = array('license_key' => $leeloolxplicense);
+
+        $curl = new curl;
+
+        $options = array(
+            'CURLOPT_RETURNTRANSFER' => true,
+            'CURLOPT_HEADER' => false,
+            'CURLOPT_POST' => count($postdata),
+        );
+
+        if (!$output = $curl->post($url, $postdata, $options)) {
+            return true;
+        }
+
+        $infoleeloolxp = json_decode($output);
+
+        if ($infoleeloolxp->status != 'false') {
+            $leeloolxpurl = $infoleeloolxp->data->install_url; 
+
+            $url = $leeloolxpurl . '/admin/sync_moodle_course/update_user_data_at_logout';
+
+            $curl = new curl;
+
+            $options = array(
+                'CURLOPT_RETURNTRANSFER' => 1,
+                'CURLOPT_HEADER' => false,
+                'CURLOPT_POST' => count($user),
+            ); 
+            $output = $curl->post($url, $user, $options);
+             return true;
+            } else {
+                return true;
+            }
     }
 }
