@@ -73,6 +73,9 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
         $username = $username;
         $useremail = $user->email;
 
+        global $CFG;
+        require_once($CFG->dirroot . '/lib/filelib.php');
+
         $leeloolxplicense = $this->config->leeloolxp_license;
 
         $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
@@ -270,6 +273,9 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         $url = $leeloolxpurl . '/admin/sync_moodle_course/sync_user_password_moodle';
 
+        global $CFG;
+        require_once($CFG->dirroot . '/lib/filelib.php');
+
         $curl = new curl;
 
         $options = array(
@@ -314,6 +320,9 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
         $postdata = array('license_key' => $leeloolxplicense);
+
+        global $CFG;
+        require_once($CFG->dirroot . '/lib/filelib.php');
 
         $curl = new curl;
 

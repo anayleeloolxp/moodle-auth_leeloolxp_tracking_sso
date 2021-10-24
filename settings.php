@@ -26,6 +26,9 @@ defined('MOODLE_INTERNAL') || die;
 
 $noapi = 0;
 
+global $CFG;
+require_once($CFG->dirroot . '/lib/filelib.php');
+
 if ($ADMIN->fulltree) {
     $roles = $DB->get_records_sql('SELECT shortname as Role, id, Description FROM {role} order by name');
 
