@@ -149,6 +149,19 @@ if ($ADMIN->fulltree) {
         )
     );
 
+    $choicesred = array(
+        $CFG->wwwroot.'/leeloolxp-smart-dashboard.html' => 'Leeloo LXP Dashboard',
+        $CFG->wwwroot.'/leeloolxp-social-network.html' => 'Leeloo LXP Social Network',
+        $CFG->wwwroot.'/local/staticpage/view.php?page=leeloolxp-smart-dashboard' => 'Leeloo LXP Dashboard (Ugly URL)',
+        $CFG->wwwroot.'/local/staticpage/view.php?page=leeloolxp-social-network' => 'Leeloo LXP Social Network (Ugly URL)',
+        $CFG->wwwroot.'/my' => 'Moodle Dashboard',
+        $CFG->wwwroot => 'Moodle Home',
+    );
+    $nameloginred = 'auth_leeloolxp_tracking_sso/login_redirectpage';
+    $titleloginred = get_string('login_redirectpage', 'auth_leeloolxp_tracking_sso');
+    $descriptionloginred = get_string('login_redirectpage_description', 'auth_leeloolxp_tracking_sso');
+    $settings->add(new admin_setting_configselect($nameloginred, $titleloginred, $descriptionloginred, 0, $choicesred));
+
     if ($noapi == 0) {
         $settings->add(
             new admin_setting_configcheckbox(

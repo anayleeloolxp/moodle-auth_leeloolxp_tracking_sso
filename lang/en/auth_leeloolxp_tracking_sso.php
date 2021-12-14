@@ -29,6 +29,10 @@ $string['auth_leeloolxp_tracking_ssosettings'] = 'Settings';
 $string['pluginname'] = 'Leeloo LXP SSO';
 $string['leeloolxp_license'] = 'Leeloo LXP License ID';
 $string['leeloolxp_license_desc'] = 'Enter Valid License ID to see further settings.';
+
+$string['login_redirectpage'] = 'Select Leeloo LXP Dashboard tab on log in';
+$string['login_redirectpage_description'] = 'Select Leeloo LXP Dashboard tab on log in.';
+
 $string['sso_required_admin_approval_student_label'] = 'Require administrator approval';
 $string['sso_required_admin_approval_student_desc'] = 'The new student requires manual approval on Leeloo LXP to activate the account.';
 $string['web_createuseronteamnio'] = 'Enable creating a new user on Leeloo LXP';

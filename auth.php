@@ -77,6 +77,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
         require_once($CFG->dirroot . '/lib/filelib.php');
 
         $leeloolxplicense = $this->config->leeloolxp_license;
+        $loginredirect = $this->config->login_redirectpage;
 
         $url = 'https://leeloolxp.com/api_moodle.php/?action=page_info';
         $postdata = array('license_key' => $leeloolxplicense);
@@ -156,6 +157,9 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         if (isset($_COOKIE['leeloolxp']) && isset($_COOKIE['leeloolxp']) != '') {
             echo '<script>window.location.replace("' . $redirecturl . '");</script>';
+        }elseif( $loginredirect != '' ){
+            global $SESSION;
+            $SESSION->wantsurl = $loginredirect;
         }
 
         return true;
