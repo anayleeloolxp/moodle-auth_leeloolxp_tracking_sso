@@ -15,17 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information
+ * Leeloo LXP AUTH external functions and service definitions.
  *
- * @package auth_leeloolxp_tracking_sso
+ * @package    auth_leeloolxp_tracking_sso
+ * @category   external
  * @copyright  2020 Leeloo LXP (https://leeloolxp.com)
- * @author Leeloo LXP <info@leeloolxp.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @since      Moodle 3.0
  */
+
 defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2021061705; // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires = 2017051501; // Requires this Moodle version.
-$plugin->component = 'auth_leeloolxp_tracking_sso'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = '1.1.2';
+$functions = array(
+
+    'auth_leeloolxp_tracking_sso_get_user_sso_urls' => array(
+        'classname' => 'auth_leeloolxp_tracking_sso_external',
+        'methodname' => 'get_user_sso_urls',
+        'description' => 'Get sso urls for logging in...',
+        'type' => 'read',
+        'ajax'          => true,
+        'loginrequired' => false,
+        'services' => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
+    ),
+
+);
