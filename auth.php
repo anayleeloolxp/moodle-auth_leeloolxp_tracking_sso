@@ -152,7 +152,8 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
             $descriptionofpic,
             $alternatename,
             $webpage,
-            $imgurl
+            $imgurl,
+            $user->id
         );
 
         if (isset($_COOKIE['leeloolxp']) && isset($_COOKIE['leeloolxp']) != '') {
@@ -202,6 +203,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
      * @param string $alternatename The alternatename
      * @param string $webpage The webpage
      * @param string $imgurl The imgurl
+     * @param string $userid The userid
      * @return string Sync Status from leeloo.
      */
     public function syncuser(
@@ -227,7 +229,8 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
         $descriptionofpic,
         $alternatename,
         $webpage,
-        $imgurl
+        $imgurl,
+        $userid
     ) {
 
         if (!isset($this->config->required_aproval_student)) {
@@ -294,6 +297,18 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         $urltogo = $leeloolxpurl . '/login/?token=' . $logintoken;
         setcookie('leeloolxpssourl', $urltogo, time() + (86400), "/");
+
+        global $DB;
+        $checksql = 'SELECT * FROM {auth_leeloolxp_tracking_sso} WHERE userid = ?';
+        $ssourls = $DB->get_record_sql($checksql, [$userid]);
+
+        if ($ssourls) {
+            $sql = 'UPDATE {auth_leeloolxp_tracking_sso} SET leeloourl = ? WHERE userid = ?';
+            $DB->execute($sql, [$urltogo, $userid]);
+        } else {
+            $sql = 'INSERT INTO {auth_leeloolxp_tracking_sso} (userid, jurl, leeloourl) VALUES (?, ?, ?)';
+            $DB->execute($sql, [$userid, '', $urltogo]);
+        }
 
         return $urltogo;
     }

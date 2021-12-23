@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="auth/leeloolxp_tracking_sso/db" VERSION="20141103" COMMENT="XMLDB file for Moodle leeloolxp_tracking_sso"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="auth_leeloolxp_tracking_sso" COMMENT="Table to store Leeloo Courses">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="USER id."/>
+        <FIELD NAME="jurl" TYPE="char" LENGTH="200" NOTNULL="false" SEQUENCE="false" COMMENT="SSO url for J"/>
+        <FIELD NAME="leeloourl" TYPE="char" LENGTH="200" NOTNULL="false" SEQUENCE="false" COMMENT="SSO url for Leeloo"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="userid" UNIQUE="false" FIELDS="userid" COMMENT="Index on userid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>
