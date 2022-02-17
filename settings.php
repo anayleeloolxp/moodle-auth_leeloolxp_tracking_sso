@@ -36,13 +36,8 @@ if ($ADMIN->fulltree) {
 
     $department = $DB->get_records_sql("SELECT DISTINCT department  FROM {user} where department !=''");
 
-    $degrees = $DB->get_records_sql(
-        "SELECT DISTINCT data
-            FROM {user_info_data}
-            left join {user_info_field}
-            on {user_info_data}.fieldid = {user_info_field}.id
-            where {user_info_field}.shortname = 'degree' and data !=''"
-    );
+    $degrees = $DB->get_record_sql("SELECT param1  FROM {user_info_field} where shortname = 'Degree'");
+    $degreesexplode = explode(PHP_EOL, $degrees->param1);
 
     $institutionarr[] = get_string('student_institution_lable', 'auth_leeloolxp_tracking_sso');
 
@@ -58,8 +53,8 @@ if ($ADMIN->fulltree) {
 
     $degreearr[] = get_string('student_degree_lable', 'auth_leeloolxp_tracking_sso');
 
-    foreach ($degrees as $key => $value) {
-        $degreearr[$value->data] = $value->data;
+    foreach ($degreesexplode as $key => $value) {
+        $degreearr[$value] = $value;
     }
 
     $pluginconfig = get_config('auth_leeloolxp_tracking_sso');
