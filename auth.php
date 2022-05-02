@@ -69,6 +69,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
      */
     public function user_authenticated_hook(&$user, $username, $password) {
         setcookie('leeloolxpssourl', '', time() + (86400), "/");
+        setcookie('installlogintoken', '', time() + (86400), "/");
 
         $username = $username;
         $useremail = $user->email;
@@ -297,6 +298,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         $urltogo = $leeloolxpurl . '/login/?token=' . $logintoken;
         setcookie('leeloolxpssourl', $urltogo, time() + (86400), "/");
+        setcookie('installlogintoken', $logintoken, time() + (86400), "/");
 
         global $DB;
         $checksql = 'SELECT * FROM {auth_leeloolxp_tracking_sso} WHERE userid = ?';
@@ -334,6 +336,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
      */
     public function postlogout_hook($user) { 
         setcookie('leeloolxpssourl', '', time() + (86400), "/");
+        setcookie('installlogintoken', '', time() + (86400), "/");
 
         $leeloolxplicense = $this->config->leeloolxp_license;
 
