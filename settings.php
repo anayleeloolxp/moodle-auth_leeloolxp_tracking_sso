@@ -114,6 +114,9 @@ if ($ADMIN->fulltree) {
             'CURLOPT_RETURNTRANSFER' => true,
             'CURLOPT_HEADER' => false,
             'CURLOPT_POST' => count($postdata),
+            'CURLOPT_HTTPHEADER' => array(
+                'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+            )
         );
 
         if (!$output = $curl->post($url, $postdata, $options)) {
