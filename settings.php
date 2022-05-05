@@ -30,7 +30,7 @@ global $CFG;
 require_once($CFG->dirroot . '/lib/filelib.php');
 
 if ($ADMIN->fulltree) {
-    $roles = $DB->get_records_sql('SELECT shortname as Role, id, Description FROM {role} order by name');
+    $roles = $DB->get_records_sql('SELECT shortname Role, id, Description FROM {role} order by name');
 
     $institutions = $DB->get_records_sql("SELECT DISTINCT institution  FROM {user} where institution !=''");
 
