@@ -159,7 +159,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         if (isset($_COOKIE['leeloolxp']) && isset($_COOKIE['leeloolxp']) != '') {
             echo '<script>window.location.replace("' . $redirecturl . '");</script>';
-        } elseif ($loginredirect != '') {
+        } else if ($loginredirect != '') {
             global $SESSION;
             $SESSION->wantsurl = $loginredirect;
         }
@@ -365,36 +365,36 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         if ($infoleeloolxp->status != 'false') {
 
-            $u_agent = $_SERVER['HTTP_USER_AGENT'];
+            $uagent = $_SERVER['HTTP_USER_AGENT'];
             $bname = 'Unknown';
             $platform = 'Unknown';
 
-            //First get the platform?
-            if (preg_match('/linux/i', $u_agent)) {
+            // First get the platform.
+            if (preg_match('/linux/i', $uagent)) {
                 $platform = 'linux';
-            } elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+            } else if (preg_match('/macintosh|mac os x/i', $uagent)) {
                 $platform = 'mac';
-            } elseif (preg_match('/windows|win32/i', $u_agent)) {
+            } else if (preg_match('/windows|win32/i', $uagent)) {
                 $platform = 'windows';
             }
 
-            // Next get the name of the useragent yes seperately and for good reason
-            if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
+            // Next get the name of the useragent yes seperately and for good reason.
+            if (preg_match('/MSIE/i', $uagent) && !preg_match('/Opera/i', $uagent)) {
                 $bname = 'Internet Explorer';
                 $ub = "MSIE";
-            } elseif (preg_match('/Firefox/i', $u_agent)) {
+            } else if (preg_match('/Firefox/i', $uagent)) {
                 $bname = 'Mozilla Firefox';
                 $ub = "Firefox";
-            } elseif (preg_match('/Chrome/i', $u_agent)) {
+            } else if (preg_match('/Chrome/i', $uagent)) {
                 $bname = 'Google Chrome';
                 $ub = "Chrome";
-            } elseif (preg_match('/Safari/i', $u_agent)) {
+            } else if (preg_match('/Safari/i', $uagent)) {
                 $bname = 'Apple Safari';
                 $ub = "Safari";
-            } elseif (preg_match('/Opera/i', $u_agent)) {
+            } else if (preg_match('/Opera/i', $uagent)) {
                 $bname = 'Opera';
                 $ub = "Opera";
-            } elseif (preg_match('/Netscape/i', $u_agent)) {
+            } else if (preg_match('/Netscape/i', $uagent)) {
                 $bname = 'Netscape';
                 $ub = "Netscape";
             }

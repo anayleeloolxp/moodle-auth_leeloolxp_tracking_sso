@@ -27,8 +27,6 @@ namespace auth_leeloolxp_tracking_sso\privacy;
 
 use core_privacy\local\metadata\collection;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Provider implementation for auth_leeloolxp_tracking_sso.
  *
@@ -72,7 +70,11 @@ class provider implements
 
         ];
 
-        $collection->add_external_location_link('leeloolxp_tracking_sso_client', $externalfields, 'privacy:metadata:leeloolxp_tracking_sso');
+        $collection->add_external_location_link(
+            'leeloolxp_tracking_sso_client',
+            $externalfields,
+            'privacy:metadata:leeloolxp_tracking_sso'
+        );
 
         return $collection;
     }

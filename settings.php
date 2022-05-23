@@ -66,7 +66,7 @@ if ($ADMIN->fulltree) {
     }
 
     if ($studentnumcombinationsval <= 0) {
-        $studentnumcombinationsval = 1; // set default 1
+        $studentnumcombinationsval = 1; // Set default 1.
     }
 
     if (isset($pluginconfig->teacher_num_combination) && isset($pluginconfig->teacher_num_combination) != '') {
@@ -76,7 +76,7 @@ if ($ADMIN->fulltree) {
     }
 
     if ($teachernumcombinationsval <= 0) {
-        $teachernumcombinationsval = 1; // set default 1
+        $teachernumcombinationsval = 1; // Set default 1.
     }
 
     if (isset($pluginconfig->leeloolxp_license) && isset($pluginconfig->leeloolxp_license) != '') {
@@ -179,13 +179,21 @@ if ($ADMIN->fulltree) {
             )
         );
 
-        // 'Student Defaut Position in Leeloo'.
+        // Student Defaut Position in Leeloo.
 
         $title = get_string('default_position_leelo', 'auth_leeloolxp_tracking_sso');
 
         $description = get_string('default_position_leelo_description', 'auth_leeloolxp_tracking_sso');
 
-        $settings->add(new admin_setting_configselect('auth_leeloolxp_tracking_sso/default_student_position', $title, $description, 2, $designations));
+        $settings->add(
+            new admin_setting_configselect(
+                'auth_leeloolxp_tracking_sso/default_student_position',
+                $title,
+                $description,
+                2,
+                $designations
+            )
+        );
 
         $arrstudentcom = array();
 
@@ -278,7 +286,15 @@ if ($ADMIN->fulltree) {
 
         $description = get_string('teacher_num_of_comb', 'auth_leeloolxp_tracking_sso');
 
-        $settings->add(new admin_setting_configselect($name, $title, $description, '', $arrteachercom));
+        $settings->add(
+            new admin_setting_configselect(
+                $name,
+                $title,
+                $description,
+                '',
+                $arrteachercom
+            )
+        );
 
         if ($teachernumcombinationsval > 0) {
             for ($key = 1; $key <= $teachernumcombinationsval; $key++) {
@@ -288,7 +304,15 @@ if ($ADMIN->fulltree) {
 
                 $description = get_string('teacher_position_help_txt', 'auth_leeloolxp_tracking_sso');
 
-                $settings->add(new admin_setting_configselect($name, $title, $description, 0, $rolesarr));
+                $settings->add(
+                    new admin_setting_configselect(
+                        $name,
+                        $title,
+                        $description,
+                        0,
+                        $rolesarr
+                    )
+                );
 
                 $name = 'auth_leeloolxp_tracking_sso/teacher_position_t_' . $key;
 
@@ -296,7 +320,15 @@ if ($ADMIN->fulltree) {
 
                 $description = get_string('teacher_position_help_txt', 'auth_leeloolxp_tracking_sso');
 
-                $settings->add(new admin_setting_configselect($name, $title, $description, 0, $designations));
+                $settings->add(
+                    new admin_setting_configselect(
+                        $name,
+                        $title,
+                        $description,
+                        0,
+                        $designations
+                    )
+                );
 
                 // Institutions.
 
@@ -306,7 +338,15 @@ if ($ADMIN->fulltree) {
 
                 $institudescriptionteacher = get_string('teacher_institution_help_txt', 'auth_leeloolxp_tracking_sso');
 
-                $settings->add(new admin_setting_configselect($institunameteacher, $institutitleteacher, '', '', $institutionarr));
+                $settings->add(
+                    new admin_setting_configselect(
+                        $institunameteacher,
+                        $institutitleteacher,
+                        '',
+                        '',
+                        $institutionarr
+                    )
+                );
 
                 // Department.
 
@@ -316,7 +356,15 @@ if ($ADMIN->fulltree) {
 
                 $departmentdescriptionteacher = get_string('teacher_department_help_txt', 'auth_leeloolxp_tracking_sso');
 
-                $settings->add(new admin_setting_configselect($departmentnameteacher, $departmenttitleteacher, '', '', $departmentarr));
+                $settings->add(
+                    new admin_setting_configselect(
+                        $departmentnameteacher,
+                        $departmenttitleteacher,
+                        '',
+                        '',
+                        $departmentarr
+                    )
+                );
 
                 // Degree.
 
