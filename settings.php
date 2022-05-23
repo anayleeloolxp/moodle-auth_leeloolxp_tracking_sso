@@ -30,7 +30,7 @@ global $CFG;
 require_once($CFG->dirroot . '/lib/filelib.php');
 
 if ($ADMIN->fulltree) {
-    $roles = $DB->get_records_sql('SELECT shortname moodlerole, id, Description FROM {role} order by name');
+    $roles = $DB->get_records_sql("SELECT shortname moodlerole, id, Description FROM {role} order by name");
 
     $institutions = $DB->get_records_sql("SELECT DISTINCT institution  FROM {user} where institution !=''");
 
@@ -115,7 +115,7 @@ if ($ADMIN->fulltree) {
             'CURLOPT_HEADER' => false,
             'CURLOPT_POST' => count($postdata),
             'CURLOPT_HTTPHEADER' => array(
-                'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+                'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
             )
         );
 
@@ -148,11 +148,11 @@ if ($ADMIN->fulltree) {
     );
 
     $choicesred = array(
-        $CFG->wwwroot.'/leeloolxp-smart-dashboard.html' => 'Leeloo LXP Dashboard',
-        $CFG->wwwroot.'/leeloolxp-social-network.html' => 'Leeloo LXP Social Network',
-        $CFG->wwwroot.'/local/staticpage/view.php?page=leeloolxp-smart-dashboard' => 'Leeloo LXP Dashboard (Ugly URL)',
-        $CFG->wwwroot.'/local/staticpage/view.php?page=leeloolxp-social-network' => 'Leeloo LXP Social Network (Ugly URL)',
-        $CFG->wwwroot.'/my' => 'Moodle Dashboard',
+        $CFG->wwwroot . '/leeloolxp-smart-dashboard.html' => 'Leeloo LXP Dashboard',
+        $CFG->wwwroot . '/leeloolxp-social-network.html' => 'Leeloo LXP Social Network',
+        $CFG->wwwroot . '/local/staticpage/view.php?page=leeloolxp-smart-dashboard' => 'Leeloo LXP Dashboard (Ugly URL)',
+        $CFG->wwwroot . '/local/staticpage/view.php?page=leeloolxp-social-network' => 'Leeloo LXP Social Network (Ugly URL)',
+        $CFG->wwwroot . '/my' => 'Moodle Dashboard',
         $CFG->wwwroot => 'Moodle Home',
     );
     $nameloginred = 'auth_leeloolxp_tracking_sso/login_redirectpage';

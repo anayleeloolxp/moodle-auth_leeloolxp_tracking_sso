@@ -65,14 +65,16 @@ class auth_leeloolxp_tracking_sso_external extends external_api {
     public static function get_user_sso_urls($userid) {
         global $DB;
 
-        $params = self::validate_parameters(self::get_user_sso_urls_parameters(),
+        $params = self::validate_parameters(
+            self::get_user_sso_urls_parameters(),
             array(
                 'userid' => $userid,
-            ));
+            )
+        );
         $warnings = array();
 
-        $ssourls = $DB->get_record_sql('SELECT jurl,leeloourl FROM {auth_leeloolxp_tracking_sso} WHERE userid = ?', [$userid]);
-        
+        $ssourls = $DB->get_record_sql("SELECT jurl,leeloourl FROM {auth_leeloolxp_tracking_sso} WHERE userid = ?", [$userid]);
+
         $result = array();
         $result['status'] = true;
         $result['jurl'] = $ssourls->jurl;
@@ -95,5 +97,4 @@ class auth_leeloolxp_tracking_sso_external extends external_api {
             )
         );
     }
-
 }

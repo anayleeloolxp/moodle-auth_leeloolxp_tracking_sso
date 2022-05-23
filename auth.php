@@ -103,7 +103,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
             return true;
         }
 
-        if ( !$this->config->web_new_user_student ) {
+        if (!$this->config->web_new_user_student) {
             return true;
         }
 
@@ -159,7 +159,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
         if (isset($_COOKIE['leeloolxp']) && isset($_COOKIE['leeloolxp']) != '') {
             echo '<script>window.location.replace("' . $redirecturl . '");</script>';
-        }elseif( $loginredirect != '' ){
+        } elseif ($loginredirect != '') {
             global $SESSION;
             $SESSION->wantsurl = $loginredirect;
         }
@@ -291,7 +291,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
             'CURLOPT_HEADER' => false,
             'CURLOPT_POST' => count($postdata),
             'CURLOPT_HTTPHEADER' => array(
-                'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+                'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
             )
         );
 
@@ -304,7 +304,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
         setcookie('installlogintoken', $logintoken, time() + (86400), "/");
 
         global $DB;
-        $checksql = 'SELECT * FROM {auth_leeloolxp_tracking_sso} WHERE userid = ?';
+        $checksql = "SELECT * FROM {auth_leeloolxp_tracking_sso} WHERE userid = ?";
         $ssourls = $DB->get_record_sql($checksql, [$userid]);
 
         if ($ssourls) {
@@ -337,7 +337,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
      *
      * @param string $user The user data
      */
-    public function postlogout_hook($user) { 
+    public function postlogout_hook($user) {
         setcookie('leeloolxpssourl', '', time() + (86400), "/");
         setcookie('installlogintoken', '', time() + (86400), "/");
 
@@ -367,54 +367,41 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
 
             $u_agent = $_SERVER['HTTP_USER_AGENT'];
             $bname = 'Unknown';
-            $platform = 'Unknown'; 
+            $platform = 'Unknown';
 
             //First get the platform?
             if (preg_match('/linux/i', $u_agent)) {
                 $platform = 'linux';
-            }
-            elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+            } elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
                 $platform = 'mac';
-            }
-            elseif (preg_match('/windows|win32/i', $u_agent)) {
+            } elseif (preg_match('/windows|win32/i', $u_agent)) {
                 $platform = 'windows';
             }
 
             // Next get the name of the useragent yes seperately and for good reason
-            if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent))
-            {
+            if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
                 $bname = 'Internet Explorer';
                 $ub = "MSIE";
-            }
-            elseif(preg_match('/Firefox/i',$u_agent))
-            {
+            } elseif (preg_match('/Firefox/i', $u_agent)) {
                 $bname = 'Mozilla Firefox';
                 $ub = "Firefox";
-            }
-            elseif(preg_match('/Chrome/i',$u_agent))
-            {
+            } elseif (preg_match('/Chrome/i', $u_agent)) {
                 $bname = 'Google Chrome';
                 $ub = "Chrome";
-            }
-            elseif(preg_match('/Safari/i',$u_agent))
-            {
+            } elseif (preg_match('/Safari/i', $u_agent)) {
                 $bname = 'Apple Safari';
                 $ub = "Safari";
-            }
-            elseif(preg_match('/Opera/i',$u_agent))
-            {
+            } elseif (preg_match('/Opera/i', $u_agent)) {
                 $bname = 'Opera';
                 $ub = "Opera";
-            }
-            elseif(preg_match('/Netscape/i',$u_agent))
-            {
+            } elseif (preg_match('/Netscape/i', $u_agent)) {
                 $bname = 'Netscape';
                 $ub = "Netscape";
             }
-            $user->browser = $bname;   
-            $user->os = $platform;   
+            $user->browser = $bname;
+            $user->os = $platform;
 
-            $leeloolxpurl = $infoleeloolxp->data->install_url; 
+            $leeloolxpurl = $infoleeloolxp->data->install_url;
 
             $url = $leeloolxpurl . '/admin/sync_moodle_course/update_user_data_at_logout';
 
@@ -425,13 +412,13 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
                 'CURLOPT_HEADER' => false,
                 'CURLOPT_POST' => count($user),
                 'CURLOPT_HTTPHEADER' => array(
-                    'LeelooLXPToken: '.get_config('local_leeloolxpapi')->leelooapitoken.''
+                    'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
                 )
-            ); 
+            );
             $output = $curl->post($url, $user, $options);
-             return true;
-            } else {
-                return true;
-            }
+            return true;
+        } else {
+            return true;
+        }
     }
 }
