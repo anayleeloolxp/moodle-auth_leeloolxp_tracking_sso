@@ -115,7 +115,7 @@ if ($ADMIN->fulltree) {
             'CURLOPT_HEADER' => false,
             'CURLOPT_POST' => count($postdata),
             'CURLOPT_HTTPHEADER' => array(
-                'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
+                'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
             )
         );
 

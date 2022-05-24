@@ -291,7 +291,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
             'CURLOPT_HEADER' => false,
             'CURLOPT_POST' => count($postdata),
             'CURLOPT_HTTPHEADER' => array(
-                'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
+                'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
             )
         );
 
@@ -412,7 +412,7 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
                 'CURLOPT_HEADER' => false,
                 'CURLOPT_POST' => count($user),
                 'CURLOPT_HTTPHEADER' => array(
-                    'LeelooLXPToken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
+                    'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
                 )
             );
             $output = $curl->post($url, $user, $options);
