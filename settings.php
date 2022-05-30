@@ -394,7 +394,9 @@ if ($ADMIN->fulltree) {
 
             for(var i = 1; i<=count; i++) {
 
-                var top_text_student = '<div class=\"top_text_student\"> <b>'+s_role_1_heading+'</b><p> '+s_role_2_heading+' <p></div>';
+                var top_text_student = '<div class=\"top_text_student\"> <b>';
+
+                var top_text_student += s_role_1_heading+'</b><p> '+s_role_2_heading+' <p></div>';
 
                 if (
                     typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i)) !== 'undefined'
@@ -402,7 +404,9 @@ if ($ADMIN->fulltree) {
                     document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i) !== null
                 ) {
 
-                    var student_first_element = document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i).parentElement.parentElement;
+                    var student_first_element = document.getElementById(
+                        'id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i
+                        ).parentElement.parentElement;
                 }
 
                 if (typeof(student_first_element) != 'undefined' && student_first_element != null) {
@@ -416,7 +420,9 @@ if ($ADMIN->fulltree) {
                     &&
                     document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i) !== null
                 ) {
-                    var student_t_position = document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i).parentElement.parentElement;
+                    var student_t_position = document.getElementById(
+                        'id_s_auth_leeloolxp_tracking_sso_student_position_t_'+i
+                    ).parentElement.parentElement;
                 }
                 var student_t_position_text = '<div class=\"student_t_position_text\"><b>'+student_position_leelo_text+'</b></div>';
 
@@ -438,7 +444,9 @@ if ($ADMIN->fulltree) {
                     document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i) !== null
                 ) {
 
-                    var teacher_t_position = document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i).parentElement.parentElement;
+                    var teacher_t_position = document.getElementById(
+                        'id_s_auth_leeloolxp_tracking_sso_teacher_position_t_'+i
+                    ).parentElement.parentElement;
                 }
 
                 var teacher_t_position_text = '<div class=\"teacher_t_position_text\"><b>'+student_position_leelo_text+'</b></div>';
@@ -449,14 +457,18 @@ if ($ADMIN->fulltree) {
 
                 }
 
-                var top_text_teacher = '<div class=\"top_text_student\"> <b>'+t_role_1_heading+'</b><p>'+t_role_2_heading+'<p></div>';
+                var top_text_teacher = '<div class=\"top_text_student\"> <b>';
+
+                var top_text_teacher += t_role_1_heading+'</b><p>'+t_role_2_heading+'<p></div>';
 
                 if (
                     typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i)) != 'undefined'
                     &&
                     document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i) != null
                 ) {
-                    var teacher_first_element = document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i).parentElement.parentElement;
+                    var teacher_first_element = document.getElementById(
+                        'id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i
+                        ).parentElement.parentElement;
                 }
 
                 if (typeof(teacher_first_element) != 'undefined' && teacher_first_element != null) {
@@ -480,9 +492,13 @@ if ($ADMIN->fulltree) {
 
                     var p_div_student_institution =  document.getElementById('admin-student_institution_'+i);
 
-                    var child_institution_div_student = p_div_student_institution.getElementsByClassName('form-setting')[0].innerHTML;
+                    var child_institution_div_student = p_div_student_institution.getElementsByClassName(
+                        'form-setting'
+                    )[0].innerHTML;
 
-                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_student;
+                    document.getElementById(
+                        'admin-student_position_moodle_'+i
+                    ).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_student;
 
                     document.getElementById('admin-student_institution_'+i).getElementsByClassName('form-setting')[0].remove();
 
@@ -491,7 +507,10 @@ if ($ADMIN->fulltree) {
                     var p_div_student_department =  document.getElementById('admin-student_department_'+i);
 
                     var child_department_div_student = p_div_student_department.getElementsByClassName('form-setting')[0].innerHTML;
-                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_student;
+
+                    document.getElementById(
+                        'admin-student_position_moodle_'+i
+                    ).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_student;
 
                     document.getElementById('admin-student_department_'+i).getElementsByClassName('form-setting')[0].remove();
                     // Degree append.
@@ -500,7 +519,9 @@ if ($ADMIN->fulltree) {
 
                     var child_degree_div_student = p_div_student_degree.getElementsByClassName('form-setting')[0].innerHTML;
 
-                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_student;
+                    document.getElementById(
+                        'admin-student_position_moodle_'+i
+                    ).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_student;
 
                     document.getElementById('admin-student_degree_'+i).getElementsByClassName('form-setting')[0].remove();
 
@@ -510,7 +531,9 @@ if ($ADMIN->fulltree) {
 
                     var child_div_student = p_div_student.getElementsByClassName('form-setting')[0].innerHTML;
 
-                    document.getElementById('admin-student_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_div_student;
+                    document.getElementById(
+                        'admin-student_position_moodle_'+i
+                    ).getElementsByClassName('form-setting')[0].innerHTML += child_div_student;
 
                     document.getElementById('admin-student_position_t_'+i).getElementsByClassName('form-setting')[0].remove();
 
@@ -533,18 +556,26 @@ if ($ADMIN->fulltree) {
 
                         var p_div_teacher_institution =  document.getElementById('admin-teacher_institution_'+i);
 
-                        var child_institution_div_teacher = p_div_teacher_institution.getElementsByClassName('form-setting')[0].innerHTML;
+                        var child_institution_div_teacher = p_div_teacher_institution.getElementsByClassName(
+                            'form-setting'
+                        )[0].innerHTML;
 
-                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_teacher;
+                        document.getElementById(
+                            'admin-teacher_position_moodle_'+i
+                        ).getElementsByClassName('form-setting')[0].innerHTML += child_institution_div_teacher;
 
                         document.getElementById('admin-teacher_institution_'+i).getElementsByClassName('form-setting')[0].remove();
                         // Department append.
 
                         var p_div_teacher_department =  document.getElementById('admin-teacher_department_'+i);
 
-                        var child_department_div_teacher = p_div_teacher_department.getElementsByClassName('form-setting')[0].innerHTML;
+                        var child_department_div_teacher = p_div_teacher_department.getElementsByClassName(
+                            'form-setting'
+                        )[0].innerHTML;
 
-                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_teacher;
+                        document.getElementById(
+                            'admin-teacher_position_moodle_'+i
+                        ).getElementsByClassName('form-setting')[0].innerHTML += child_department_div_teacher;
 
                         document.getElementById('admin-teacher_department_'+i).getElementsByClassName('form-setting')[0].remove();
                         // Degree append.
@@ -553,7 +584,9 @@ if ($ADMIN->fulltree) {
 
                         var child_degree_div_teacher = p_div_teacher_degree.getElementsByClassName('form-setting')[0].innerHTML;
 
-                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_teacher;
+                        document.getElementById(
+                            'admin-teacher_position_moodle_'+i
+                        ).getElementsByClassName('form-setting')[0].innerHTML += child_degree_div_teacher;
 
                         document.getElementById('admin-teacher_degree_'+i).getElementsByClassName('form-setting')[0].remove();
 
@@ -561,7 +594,9 @@ if ($ADMIN->fulltree) {
 
                         var child_div_teacher = p_div_teacher.getElementsByClassName('form-setting')[0].innerHTML;
 
-                        document.getElementById('admin-teacher_position_moodle_'+i).getElementsByClassName('form-setting')[0].innerHTML += child_div_teacher;
+                        document.getElementById(
+                            'admin-teacher_position_moodle_'+i
+                        ).getElementsByClassName('form-setting')[0].innerHTML += child_div_teacher;
 
                         document.getElementById('admin-teacher_position_t_'+i).getElementsByClassName('form-setting')[0].remove();
 
@@ -574,13 +609,17 @@ if ($ADMIN->fulltree) {
                 &&
                 document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination') != null
             ) {
-                document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_num_combination').addEventListener('change', function() {
+                document.getElementById(
+                    'id_s_auth_leeloolxp_tracking_sso_student_num_combination'
+                ).addEventListener('change', function() {
 
                     document.getElementById('adminsettings').submit();
 
                 });
 
-                document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_num_combination').addEventListener('change', function() {
+                document.getElementById(
+                    'id_s_auth_leeloolxp_tracking_sso_teacher_num_combination'
+                ).addEventListener('change', function() {
 
                     document.getElementById('adminsettings').submit();
 
