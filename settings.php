@@ -37,7 +37,7 @@ if ($ADMIN->fulltree) {
     $department = $DB->get_records_sql("SELECT DISTINCT department  FROM {user} where department !=''");
 
     $degrees = $DB->get_record_sql("SELECT param1  FROM {user_info_field} where shortname = 'Degree'");
-    $degreesexplode = explode(PHP_EOL, $degrees->param1);
+    @$degreesexplode = explode(PHP_EOL, $degrees->param1);
 
     $institutionarr[] = get_string('student_institution_lable', 'auth_leeloolxp_tracking_sso');
 
@@ -396,7 +396,7 @@ if ($ADMIN->fulltree) {
 
                 var top_text_student = '<div class=\"top_text_student\"> <b>';
 
-                var top_text_student += s_role_1_heading+'</b><p> '+s_role_2_heading+' <p></div>';
+                top_text_student += s_role_1_heading+'</b><p> '+s_role_2_heading+' <p></div>';
 
                 if (
                     typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_student_position_moodle_'+i)) !== 'undefined'
@@ -459,7 +459,7 @@ if ($ADMIN->fulltree) {
 
                 var top_text_teacher = '<div class=\"top_text_student\"> <b>';
 
-                var top_text_teacher += t_role_1_heading+'</b><p>'+t_role_2_heading+'<p></div>';
+                top_text_teacher += t_role_1_heading+'</b><p>'+t_role_2_heading+'<p></div>';
 
                 if (
                     typeof(document.getElementById('id_s_auth_leeloolxp_tracking_sso_teacher_position_moodle_'+i)) != 'undefined'
