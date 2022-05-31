@@ -401,6 +401,8 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
             $user->browser = $bname;
             $user->os = $platform;
 
+            $userarr = (array) $user;
+
             $leeloolxpurl = $infoleeloolxp->data->install_url;
 
             $url = $leeloolxpurl . '/admin/sync_moodle_course/update_user_data_at_logout';
@@ -410,12 +412,12 @@ class auth_plugin_leeloolxp_tracking_sso extends auth_plugin_base {
             $options = array(
                 'CURLOPT_RETURNTRANSFER' => 1,
                 'CURLOPT_HEADER' => false,
-                'CURLOPT_POST' => count($user),
+                'CURLOPT_POST' => count($userarr),
                 'CURLOPT_HTTPHEADER' => array(
                     'Leeloolxptoken: ' . get_config('local_leeloolxpapi')->leelooapitoken . ''
                 )
             );
-            $output = $curl->post($url, $user, $options);
+            $output = $curl->post($url, $userarr, $options);
             return true;
         } else {
             return true;
